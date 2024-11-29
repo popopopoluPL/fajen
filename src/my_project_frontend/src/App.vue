@@ -1,19 +1,21 @@
 <script setup>
 import { ref } from 'vue';
 import { my_project_backend } from 'declarations/my_project_backend/index';
-let greeting = ref('');
+let displasyChat = ref([]);
 
 async function handleSubmit(e) {
   e.preventDefault();
   const target = e.target;
   const msg = target.querySelector('#msg').value;
   await my_project_backend.save_msg(msg)
-  await getMsg()
-
-async function getMsg() {
-  displayMsg.value = await my_project_backend.get_msg()
+  await getChat()
 }
-getMsg()
+
+async function getChat() {
+  displasyChat.value = await my_project_backend.get_chat()
+}
+
+getChat()
 </script>
 
 <template>
@@ -26,6 +28,9 @@ getMsg()
       <input id="msg" alt="msg" type="text" />
       <button type="submit">Click Me!</button>
     </form>
-    <section id="save_msging">{{ greeting }}</section>
+    <section id="displasyChat">
+      <div v-for="msg in displasyChat
+      ">{{ msg }}</div>
+    </section>
   </main>
 </template>
